@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jake &amp; Mya · Wedding Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..600&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --espresso:#1b130b; --espresso2:#241a0f; --bar:#15100a;
+  --paper:#f4ecdd; --paper2:#efe4d1; --card:#fffdf8; --cardline:#e4d8c1;
+  --ink:#2a2014; --ink2:#4d3f2c; --muted:#8a7c64;
+  --brass:#bf9152; --brass-bright:#e2bd7d; --brass-deep:#9a6f33;
+  --sage:#6e7b5b; --sage2:#eef1e6; --rust:#a4543c; --rust2:#fbeee8;
+  --leather:#6e4626; --blue:#7c97a3; --cream:#f7ecd9;
+  --line:#ded1ba; --shadow:0 22px 50px -22px rgba(38,24,8,.45);
+  --shadow-sm:0 8px 20px -10px rgba(38,24,8,.35);
+  --radius:20px; --radius-lg:28px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);
+  font-family:"Hanken Grotesk",ui-sans-serif,system-ui,sans-serif;
+  line-height:1.5;font-size:15px;
+  background:
+    radial-gradient(1100px 620px at 82% -8%, rgba(191,145,82,.16), transparent 60%),
+    radial-gradient(900px 560px at -5% 8%, rgba(110,123,91,.14), transparent 55%),
+    linear-gradient(178deg,#f6eedf 0%,#f1e7d5 46%,#ece0cb 100%);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:"Fraunces",Georgia,serif;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+a{color:var(--brass-deep);text-decoration:none}
+.mono{font-family:"Spline Sans Mono",ui-monospace,monospace}
+.eyebrow{font-family:"Spline Sans Mono",monospace;text-transform:uppercase;letter-spacing:.22em;font-size:11px;font-weight:500}
+
+/* ---------- Shell ---------- */
+.app{display:grid;grid-template-columns:288px 1fr;min-height:100vh}
+aside{
+  position:sticky;top:0;height:100vh;overflow:auto;
+  background:linear-gradient(168deg,#211710,#16100a 70%);
+  color:#f4e6cf;padding:26px 20px 30px;
+  border-right:1px solid rgba(226,189,125,.16);
+}
+.brand{display:flex;align-items:center;gap:13px;margin-bottom:4px}
+.monogram{
+  width:50px;height:50px;flex:0 0 auto;border-radius:14px;
+  display:grid;place-items:center;font-family:"Fraunces",serif;font-weight:600;font-size:19px;
+  color:#1b130b;background:linear-gradient(150deg,var(--brass-bright),var(--brass-deep));
+  box-shadow:0 6px 16px -6px rgba(226,189,125,.6), inset 0 1px 0 rgba(255,255,255,.4);
+}
+.brand h1{color:#fbf0dc;font-size:18px;margin:0;line-height:1.12}
+.brand .sub{font-family:"Spline Sans Mono",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass-bright);margin-top:3px}
+.countdown{margin:20px 0 16px;padding:16px 16px 14px;border-radius:16px;background:rgba(226,189,125,.08);border:1px solid rgba(226,189,125,.18);text-align:center}
+.countdown .num{font-family:"Fraunces",serif;font-size:46px;line-height:.9;color:var(--brass-bright);font-weight:500}
+.countdown .lab{font-family:"Spline Sans Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#d8c4a0;margin-top:7px}
+.countdown .date{font-size:12.5px;color:#cbb78f;margin-top:2px}
+nav{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+.navbtn{
+  display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+  background:transparent;border:0;color:#e9d8bb;cursor:pointer;
+  padding:9px 11px;border-radius:11px;font-size:13.5px;font-weight:600;font-family:inherit;
+  transition:background .16s,color .16s;
+}
+.navbtn .ic{width:17px;text-align:center;opacity:.8;font-size:14px}
+.navbtn:hover{background:rgba(255,255,255,.06);color:#fff5e6}
+.navbtn.active{background:linear-gradient(100deg,rgba(226,189,125,.22),rgba(226,189,125,.06));color:#fff5e6;box-shadow:inset 0 0 0 1px rgba(226,189,125,.3)}
+.side-actions{display:grid;gap:7px;margin-top:22px;padding-top:18px;border-top:1px solid rgba(226,189,125,.14)}
+.side-actions button{
+  border:1px solid rgba(226,189,125,.28);background:rgba(255,255,255,.04);color:#f0e1c6;
+  border-radius:11px;padding:9px 11px;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit;
+  transition:background .16s;
+}
+.side-actions button:hover{background:rgba(226,189,125,.16)}
+.side-foot{margin-top:14px;font-size:10.5px;color:#9c8a6c;line-height:1.5}
+
+/* ---------- Main ---------- */
+main{padding:0;max-width:1400px}
+.view{display:none;padding:34px 40px 64px;animation:fade .4s ease both}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.viewhead{margin:0 0 22px}
+.viewhead h2{font-size:33px;margin:0;line-height:1.04;font-weight:600}
+.viewhead h2 em{font-style:italic;color:var(--brass-deep)}
+.viewhead p{margin:7px 0 0;color:var(--ink2);max-width:760px;font-size:14.5px}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--cardline);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm)}
+.card h3{margin:0 0 12px;font-size:18px}
+.card .ch{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px}
+.card .ch h3{margin:0}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.accent-ok{border-left:5px solid var(--sage)}
+.accent-risk{border-left:5px solid var(--rust)}
+.accent-gold{border-left:5px solid var(--brass)}
+.note{background:#fbf2dd;border:1px solid #ecd9ab;border-radius:14px;padding:13px 14px;color:#6b5020;font-size:13.5px}
+
+/* ---------- Dashboard hero ---------- */
+.hero{
+  position:relative;overflow:hidden;border-radius:var(--radius-lg);padding:32px 34px;
+  color:#f6e9d2;margin-bottom:20px;
+  background:
+    radial-gradient(520px 300px at 88% -20%, rgba(226,189,125,.35), transparent 60%),
+    radial-gradient(420px 260px at 10% 120%, rgba(110,123,91,.4), transparent 60%),
+    linear-gradient(135deg,#2a1d11,#3c2918 52%,#5a3d22);
+  box-shadow:var(--shadow);
+}
+.hero:after{content:"";position:absolute;right:-90px;top:-90px;width:280px;height:280px;border-radius:50%;border:34px solid rgba(226,189,125,.1)}
+.hero .eyebrow{color:var(--brass-bright)}
+.hero h2{font-size:46px;line-height:.98;margin:10px 0 8px;color:#fdf3df;font-weight:500}
+.hero h2 .amp{font-style:italic;color:var(--brass-bright);font-weight:400}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px 22px;color:#ecdcbe;font-size:14px;position:relative;z-index:2}
+.hero .meta b{color:#fff7e8;font-weight:600}
+
+/* stat strip */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat{background:var(--card);border:1px solid var(--cardline);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.stat:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--brass)}
+.stat.s-sage:before{background:var(--sage)} .stat.s-rust:before{background:var(--rust)} .stat.s-blue:before{background:var(--blue)}
+.stat .k{font-family:"Spline Sans Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.stat .v{font-family:"Fraunces",serif;font-size:32px;font-weight:500;line-height:1;margin-top:7px;color:var(--ink)}
+.stat .sub{font-size:12px;color:var(--ink2);margin-top:5px}
+
+/* progress + bars */
+.bar-track{height:13px;border-radius:9px;background:#ece0c9;overflow:hidden;border:1px solid #e0d2b6}
+.bar-fill{height:100%;border-radius:9px;background:linear-gradient(90deg,var(--brass-deep),var(--brass-bright));transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.bar-fill.over{background:linear-gradient(90deg,#9a4a36,var(--rust))}
+.bar-fill.sage{background:linear-gradient(90deg,#5b6a49,#8a9a72)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink2);margin-top:11px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+.catbar{margin:11px 0}
+.catbar .top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
+.catbar .top .amt{font-family:"Spline Sans Mono",monospace;color:var(--ink2)}
+.catbar .tk{height:9px;border-radius:6px;background:#ece0c9;overflow:hidden}
+.catbar .fl{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--brass-deep),var(--brass-bright))}
+
+/* ring */
+.ring-wrap{display:flex;align-items:center;gap:18px}
+.ring{position:relative;width:108px;height:108px;flex:0 0 auto}
+.ring svg{transform:rotate(-90deg)}
+.ring .ctr{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .ctr b{font-family:"Fraunces",serif;font-size:26px;font-weight:500;display:block;line-height:1}
+.ring .ctr span{font-size:10.5px;color:var(--muted);font-family:"Spline Sans Mono",monospace;letter-spacing:.1em}
+
+/* tags / pills */
+.tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11.5px;font-weight:700;font-family:"Spline Sans Mono",monospace;letter-spacing:.03em}
+.tag.sage{background:var(--sage2);color:#3f4d34} .tag.gold{background:#fbf0d6;color:#7c5a1d}
+.tag.rust{background:var(--rust2);color:#8a3a28} .tag.blue{background:#e7eef1;color:#3d5963} .tag.dark{background:#2a2018;color:#f3dfb6}
+
+/* tables */
+.tablewrap{overflow-x:auto;border-radius:16px;border:1px solid var(--line)}
+table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;min-width:640px}
+th,td{padding:11px 12px;border-bottom:1px solid #efe6d5;text-align:left;vertical-align:top;font-size:13px}
+th{background:#f1e7d4;color:#5a4628;font-family:"Spline Sans Mono",monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;white-space:nowrap;font-family:"Spline Sans Mono",monospace}
+tbody tr:hover{background:#fdf8ee}
+input,select,textarea{width:100%;border:1px solid #ddcfb6;border-radius:9px;background:#fffdf9;padding:7px 9px;font:inherit;font-size:13px;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(191,145,82,.4);border-color:var(--brass)}
+textarea{min-height:80px;resize:vertical}
+[contenteditable="true"]{outline:2px solid transparent;border-radius:7px;padding:2px 5px;margin:-2px -5px;transition:background .15s}
+[contenteditable="true"]:focus{outline-color:rgba(191,145,82,.4);background:#fbf2dd}
+
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:11px;padding:8px 13px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;transition:filter .15s,background .15s}
+.btn:hover{background:#fbf2dd}
+.btn.dark{background:#2a2018;color:#f6e6c8;border-color:#2a2018}
+.btn.dark:hover{filter:brightness(1.12)}
+.btn.sm{font-size:12px;padding:6px 10px;border-radius:9px}
+.pillrow{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+
+/* totalbar */
+.totalbar{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin-top:16px}
+.total{background:linear-gradient(160deg,#241a0f,#15100a);color:#f7e9cf;border-radius:15px;padding:14px;border:1px solid rgba(226,189,125,.16)}
+.total span{display:block;font-family:"Spline Sans Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-bright)}
+.total strong{font-family:"Fraunces",serif;font-size:21px;font-weight:500;display:block;margin-top:5px}
+
+/* checklist */
+.checklist{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+.checklist li{display:grid;grid-template-columns:22px 1fr auto;gap:11px;align-items:start;border:1px solid #ece0cb;background:#fffdf9;border-radius:13px;padding:11px 13px;transition:background .15s}
+.checklist li:has(input:checked){background:#f3f5ec;border-color:#dde3d0}
+.checklist li:has(input:checked) strong{text-decoration:line-through;color:var(--muted)}
+.checklist input[type=checkbox]{width:18px;height:18px;margin-top:1px;accent-color:var(--sage)}
+.checklist small{color:var(--muted)}
+.priority{font-family:"Spline Sans Mono",monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;padding:4px 8px;border-radius:999px;white-space:nowrap;height:fit-content}
+.p0{background:var(--rust2);color:#8a3a28} .p1{background:#fbf0d6;color:#7c5a1d} .p2{background:var(--sage2);color:#3f4d34} .p3{background:#e7eef1;color:#3d5963}
+
+/* tabs */
+.tabbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tabbtn{background:#efe4d0;border:1px solid var(--line);color:var(--ink2)}
+.tabbtn.active{background:#2a2018;color:#f6e6c8;border-color:#2a2018}
+.tabpane{display:none} .tabpane.active{display:block}
+
+/* timeline */
+.timeline{position:relative;padding-left:22px}
+.timeline:before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--brass),#e0d2b6)}
+.tl{position:relative;margin:0 0 13px;padding:13px 15px;background:#fffdf8;border:1px solid #ece0cb;border-radius:14px}
+.tl:before{content:"";position:absolute;left:-21px;top:18px;width:11px;height:11px;background:var(--brass);border-radius:50%;box-shadow:0 0 0 4px var(--paper)}
+.tl strong{display:block;font-family:"Fraunces",serif;font-size:15.5px}
+.tl span{color:var(--ink2);font-size:13px}
+
+/* palette */
+.palette-swatch{display:flex;align-items:center;gap:11px;margin:9px 0}
+.swatch{width:34px;height:34px;border-radius:10px;border:1px solid rgba(0,0,0,.14);flex:0 0 auto;box-shadow:inset 0 1px 2px rgba(255,255,255,.25)}
+.kit-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+ul.tidy{margin:0;padding-left:18px} ul.tidy li{margin-bottom:6px}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:10px;overflow:hidden;border:1px solid var(--line);margin-top:6px}
+.split>div{padding:10px 12px;background:#fff}
+.split .lab{font-family:"Spline Sans Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.split .big{font-family:"Fraunces",serif;font-size:24px;font-weight:500}
+
+@media(max-width:1040px){
+  .app{grid-template-columns:1fr}
+  aside{position:relative;height:auto}
+  nav{flex-direction:row;flex-wrap:wrap}
+  .navbtn{width:auto}
+  .view{padding:24px 18px 50px}
+  .stats,.g2,.g3,.g4,.totalbar,.kit-list,.split{grid-template-columns:1fr}
+  .hero h2{font-size:34px} .viewhead h2{font-size:27px}
+}
+@media print{
+  aside,.side-actions,.tabbar,.btn,.pillrow{display:none!important}
+  .app{display:block}
+  .view{display:block!important;padding:0 0 24px;animation:none}
+  .card,.hero,.stat{box-shadow:none;break-inside:avoid}
+  body{background:#fff}
+  .hero{color:#1e1b16;background:#fff;border:1px solid #ddd}
+  .hero h2,.hero .meta,.hero .meta b{color:#1e1b16}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="brand">
+    <div class="monogram">J&amp;M</div>
+    <div>
+      <h1>Jake &amp; Mya</h1>
+      <div class="sub">Wedding Command Center</div>
+    </div>
+  </div>
+  <div class="countdown">
+    <div class="num" id="cdNum">—</div>
+    <div class="lab">days to "I do"</div>
+    <div class="date">October 10, 2026 · Ouray, CO</div>
+  </div>
+  <nav id="nav"></nav>
+  <div class="side-actions">
+    <button onclick="window.print()">⌘ Print / Save PDF</button>
+    <button onclick="exportPlanner()">↓ Export data</button>
+    <button onclick="importPlannerPrompt()">↑ Import data</button>
+    <button onclick="resetPlanner()">⟲ Reset to defaults</button>
+  </div>
+  <div class="side-foot">Everything you edit saves automatically in this browser. Use Export to back up or move devices.</div>
+</aside>
+<main>
+<!-- ============ DASHBOARD ============ -->
+<section class="view active" id="view-dashboard">
+  <div class="hero">
+    <div class="eyebrow">Custom wedding command center</div>
+    <h2><span contenteditable="true" data-key="coupleA">Jake</span> <span class="amp">&amp;</span> <span contenteditable="true" data-key="coupleB">Mya</span></h2>
+    <div class="meta">
+      <div>📍 <b>Gold Mountain Ranch</b>, Ouray, Colorado</div>
+      <div>📅 <b>October 10, 2026</b></div>
+      <div>👥 <b id="heroGuests">50</b> guests</div>
+      <div>🥃 <b>Manhattan in the Meadow</b></div>
+    </div>
+  </div>
+
+  <div class="stats" id="statStrip"></div>
+
+  <div class="grid g2" style="align-items:start">
+    <div class="card accent-gold">
+      <div class="ch"><h3>Budget health</h3><span class="tag gold" id="budgetVerdict">—</span></div>
+      <p style="margin:0 0 8px;color:var(--ink2);font-size:13.5px">Estimated total range against your <b>$30,000</b> target. The $14K venue is already locked in.</p>
+      <div class="bar-track" style="margin-top:6px"><div class="bar-fill" id="budgetBar" style="width:0%"></div></div>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--brass)"></span>Midpoint estimate <b class="mono" id="budgetMid">$0</b></span>
+        <span><span class="dot" style="background:#ece0c9"></span>Target <b class="mono">$30,000</b></span>
+      </div>
+      <div class="split">
+        <div><div class="lab">Committed (booked / paid)</div><div class="big mono" id="budgetCommitted">$0</div></div>
+        <div><div class="lab">Still to quote / decide</div><div class="big mono" id="budgetOpen">$0</div></div>
+      </div>
+    </div>
+
+    <div class="card accent-ok">
+      <div class="ch"><h3>Where the money goes</h3><span class="tag sage">top categories</span></div>
+      <div id="catBreakdown"></div>
+    </div>
+  </div>
+
+  <div class="grid g3" style="margin-top:16px;align-items:start">
+    <div class="card">
+      <h3>Task progress</h3>
+      <div class="ring-wrap">
+        <div class="ring">
+          <svg width="108" height="108"><circle cx="54" cy="54" r="46" fill="none" stroke="#ece0c9" stroke-width="11"/><circle id="taskRing" cx="54" cy="54" r="46" fill="none" stroke="url(#tg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="289"/><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b6a49"/><stop offset="1" stop-color="#8a9a72"/></linearGradient></defs></svg>
+          <div class="ctr"><b id="taskPct">0%</b><span id="taskFrac">0/0</span></div>
+        </div>
+        <div style="font-size:13.5px;color:var(--ink2)">Across your <b>Lock first</b>, <b>Book next</b>, and design tasks. The four "Now" items below are what move the needle most.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Guest list</h3>
+      <div class="split" style="margin-bottom:10px">
+        <div><div class="lab">On the Top 50</div><div class="big" id="dashTop">0</div></div>
+        <div><div class="lab">Open seats</div><div class="big" id="dashOpen">0</div></div>
+      </div>
+      <div style="font-size:12.5px;color:var(--muted);font-family:'Spline Sans Mono',monospace;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px">Side balance · Top 50</div>
+      <div class="bar-track"><div class="bar-fill sage" id="sideBar" style="width:50%"></div></div>
+      <div class="legend">
+        <span><span class="dot" style="background:#6e7b5b"></span>Jake <b id="sideJake">0</b></span>
+        <span><span class="dot" style="background:var(--brass)"></span>Mya <b id="sideMya">0</b></span>
+        <span><span class="dot" style="background:var(--blue)"></span>Both <b id="sideBoth">0</b></span>
+      </div>
+    </div>
+
+    <div class="card accent-risk">
+      <h3>Confirm in writing</h3>
+      <ul class="tidy" style="font-size:13.5px;color:var(--ink2)">
+        <li>Venue approval for 50 people</li>
+        <li>Lodging spaces included + how many sleep on property</li>
+        <li>What furniture, linens, bar &amp; tables are included</li>
+        <li>Road, parking, shuttle, noise, candle &amp; cleanup rules</li>
+        <li>Whether BYOB beyond wine/mocktails is allowed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-top:16px;align-items:start">
+    <div class="card accent-gold">
+      <h3>Do this now</h3>
+      <p style="margin:0 0 12px;color:var(--ink2);font-size:13.5px">Your four highest-priority decisions. Everything else waits on these.</p>
+      <ul class="checklist" id="dashNow"></ul>
+    </div>
+    <div class="card">
+      <h3>The guiding rule</h3>
+      <div class="note" style="margin-bottom:12px">Spend on what guests <em>feel</em> — food, warm lighting, a great bar moment, photography, and comfortable seating. Save on flowers, favors, extra signage, and decor in spaces nobody uses.</div>
+      <p style="margin:0;color:var(--ink2);font-size:13.5px">With the venue locked at <b>$14,000</b>, the rest of the wedding should aim for roughly <b>$16,000</b> before optional upgrades to stay near the $30K plan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUDGET ============ -->
+<section class="view" id="view-budget">
+  <div class="viewhead"><h2>Budget <em>ranges</em></h2><p>Each line carries a low–high range and a status. The totals below include every active row (venue included). Edit anything inline — it recalculates instantly.</p></div>
+  <div class="card">
+    <div class="tablewrap">
+      <table id="budgetTable"><thead><tr><th>Category</th><th>Item</th><th>Status</th><th class="num">Low</th><th class="num">High</th><th>Notes</th><th></th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="pillrow" style="margin-top:14px"><button class="btn sm" onclick="addBudgetRow()">+ Add row</button><button class="btn sm" onclick="renderBudget()">↻ Recalculate</button></div>
+    <div class="totalbar">
+      <div class="total"><span>Base range</span><strong id="baseRange">$0</strong></div>
+      <div class="total"><span>+10% buffer</span><strong id="buffer10">$0</strong></div>
+      <div class="total"><span>+15% buffer</span><strong id="buffer15">$0</strong></div>
+      <div class="total"><span>+20% buffer</span><strong id="buffer20">$0</strong></div>
+      <div class="total"><span>Per guest</span><strong id="perGuest">$0</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DAY-OF NEEDS ============ -->
+<section class="view" id="view-dayof">
+  <div class="viewhead"><h2>Day-of <em>needs</em> by zone</h2><p>Your practical rental, purchase, and quote list. Each line names the item, quantity, price range, purpose, and how it fits Manhattan in the Meadow.</p></div>
+  <div id="zoneCards"></div>
+</section>
+
+<!-- ============ GUESTS ============ -->
+<section class="view" id="view-guests">
+  <div class="viewhead"><h2>Guest <em>list</em> manager</h2><p>Move people between Top 50, Reserve, and Removed by changing their status. The dashboard counts update automatically.</p></div>
+  <div class="stats" style="grid-template-columns:repeat(4,1fr)">
+    <div class="stat s-sage"><div class="k">Top 50</div><div class="v" id="topCount">0</div></div>
+    <div class="stat"><div class="k">Open spots</div><div class="v" id="openSpots">0</div></div>
+    <div class="stat s-blue"><div class="k">Reserve</div><div class="v" id="reserveCount">0</div></div>
+    <div class="stat s-rust"><div class="k">Total names</div><div class="v" id="allCount">0</div></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="tabbar">
+      <button class="btn tabbtn active" onclick="showTab('topTab',this)">Top 50</button>
+      <button class="btn tabbtn" onclick="showTab('reserveTab',this)">Reserve</button>
+      <button class="btn tabbtn" onclick="showTab('allTab',this)">All guests (editable)</button>
+      <button class="btn tabbtn" onclick="showTab('removedTab',this)">Removed</button>
+    </div>
+    <div id="topTab" class="tabpane active"><p style="font-size:12.5px;color:var(--muted)">All A-list plus B-list names fill the Top 50. Edit anyone in the "All guests" tab.</p><div class="tablewrap" id="topTableWrap"></div></div>
+    <div id="reserveTab" class="tabpane"><p style="font-size:12.5px;color:var(--muted)">Reserve holds C-list and unrated names until you promote them.</p><div class="tablewrap" id="reserveTableWrap"></div></div>
+    <div id="allTab" class="tabpane"><div class="pillrow" style="margin-bottom:12px"><button class="btn sm" onclick="addGuestRow()">+ Add guest</button><button class="btn sm" onclick="sortGuests()">↕ Sort by status &amp; priority</button><button class="btn sm" onclick="autoBuildTop50()">✨ Auto-build Top 50</button></div><div class="tablewrap" id="allTableWrap"></div></div>
+    <div id="removedTab" class="tabpane"><div class="tablewrap" id="removedTableWrap"></div></div>
+  </div>
+</section>
+
+<!-- ============ LODGING ============ -->
+<section class="view" id="view-lodging">
+  <div class="viewhead"><h2>Lodging <em>&amp;</em> shuttles</h2><p>The venue's site lists onsite lodging for up to ~18 guests, plus the Overlook for 4 more (~22 on property). Assign sleepers below and keep day-of pickup timing clear. Note: no transportation cost is carried in the budget — this section is planning only.</p></div>
+  <div class="grid g2" style="align-items:start">
+    <div class="card"><h3>On-property lodging</h3>
+      <div class="tablewrap"><table id="lodgingTable"><thead><tr><th>Room / space</th><th>Beds</th><th>Assigned</th><th>Paying?</th><th>Notes</th></tr></thead><tbody>
+        <tr><td contenteditable="true" data-key="room1">Honeymoon suite</td><td contenteditable="true" data-key="bed1">Couple suite</td><td contenteditable="true" data-key="guests1">Bride &amp; groom</td><td><select data-key="pay1"><option>No</option><option>Yes</option><option>TBD</option></select></td><td contenteditable="true" data-key="roomnotes1">Confirm access &amp; privacy.</td></tr>
+        <tr><td contenteditable="true" data-key="room2">Primary suite 1</td><td contenteditable="true" data-key="bed2">Confirm</td><td contenteditable="true" data-key="guests2">TBD</td><td><select data-key="pay2"><option>TBD</option><option>No</option><option>Yes</option></select></td><td contenteditable="true" data-key="roomnotes2">Immediate family or weekend helpers.</td></tr>
+        <tr><td contenteditable="true" data-key="room3">Primary suite 2</td><td contenteditable="true" data-key="bed3">Confirm</td><td contenteditable="true" data-key="guests3">TBD</td><td><select data-key="pay3"><option>TBD</option><option>No</option><option>Yes</option></select></td><td contenteditable="true" data-key="roomnotes3">TBD.</td></tr>
+        <tr><td contenteditable="true" data-key="room4">Bedroom / bunk space</td><td contenteditable="true" data-key="bed4">Confirm</td><td contenteditable="true" data-key="guests4">TBD</td><td><select data-key="pay4"><option>TBD</option><option>No</option><option>Yes</option></select></td><td contenteditable="true" data-key="roomnotes4">TBD.</td></tr>
+        <tr><td contenteditable="true" data-key="room5">Extra room / loft</td><td contenteditable="true" data-key="bed5">Confirm</td><td contenteditable="true" data-key="guests5">TBD</td><td><select data-key="pay5"><option>TBD</option><option>No</option><option>Yes</option></select></td><td contenteditable="true" data-key="roomnotes5">Don't overfill if it creates hosting stress.</td></tr>
+      </tbody></table></div>
+    </div>
+    <div class="card"><h3>Shuttle math</h3>
+      <div class="note" style="margin-bottom:12px">With ~12 seats per run and 50 people, plan multiple trips or vehicles. If the ceremony starts at 3:30 PM, one vehicle doing 25-minute loops is too tight unless guests arrive early.</div>
+      <div class="tablewrap"><table><thead><tr><th>Run</th><th>Pickup</th><th>Seats</th><th>Guests</th></tr></thead><tbody>
+        <tr><td>1</td><td contenteditable="true" data-key="sh1">2:00 PM</td><td>12</td><td contenteditable="true" data-key="sh1g">Early family / older guests</td></tr>
+        <tr><td>2</td><td contenteditable="true" data-key="sh2">2:20 PM</td><td>12</td><td contenteditable="true" data-key="sh2g">Hotel group 1</td></tr>
+        <tr><td>3</td><td contenteditable="true" data-key="sh3">2:40 PM</td><td>12</td><td contenteditable="true" data-key="sh3g">Hotel group 2</td></tr>
+        <tr><td>4</td><td contenteditable="true" data-key="sh4">3:00 PM</td><td>12</td><td contenteditable="true" data-key="sh4g">Only if timing allows</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOD ============ -->
+<section class="view" id="view-food">
+  <div class="viewhead"><h2>Food <em>&amp;</em> menu</h2><p>The wedding dinner is where the budget should feel generous. Keep weekend food casual so the main meal stays special.</p></div>
+  <div class="grid g3" style="align-items:start">
+    <div class="card"><h3>Wedding dinner</h3><div class="tablewrap"><table><tbody>
+      <tr><td style="width:90px;color:var(--muted)">Starter</td><td contenteditable="true" data-key="starter">TBD</td></tr>
+      <tr><td style="color:var(--muted)">Entrée</td><td contenteditable="true" data-key="entree">Steak, pasta, or Italian dinner direction</td></tr>
+      <tr><td style="color:var(--muted)">Dessert</td><td contenteditable="true" data-key="dessert">Tiramisu towers, affogato, or raspberry cake</td></tr>
+      <tr><td style="color:var(--muted)">Note</td><td contenteditable="true" data-key="foodfact">Jake &amp; Mya's favorite food is steak and pasta.</td></tr>
+    </tbody></table></div></div>
+    <div class="card"><h3>Weekend food</h3><ul class="tidy" style="font-size:13.5px">
+      <li><b>Friday:</b> charcuterie — meats, cheese, olives, pickles, apricots, nuts, chocolate, popcorn, chips &amp; salsa.</li>
+      <li><b>Sat breakfast:</b> Greek yogurt, granola, strawberries, blueberries, bagels &amp; cream cheese.</li>
+      <li><b>Sat dinner:</b> Greek salad, rotisserie chicken, cucumber, tomatoes, olives, feta, dressing, baguettes.</li>
+      <li><b>Sun lunch:</b> chicken salad sandwiches, chips, carrots, celery, apples, Hawaiian rolls.</li>
+    </ul></div>
+    <div class="card"><h3>Questions for the chef</h3><ul class="checklist">
+      <li><input type="checkbox" data-key="chef1"><div><strong>Do you bring servers?</strong><br><small>Servers, bussers, bartender, kitchen help.</small></div><span class="priority p0">Now</span></li>
+      <li><input type="checkbox" data-key="chef2"><div><strong>Are rentals included?</strong><br><small>Plates, bowls, flatware, glasses, serving pieces.</small></div><span class="priority p0">Now</span></li>
+      <li><input type="checkbox" data-key="chef3"><div><strong>Who handles cleanup?</strong><br><small>Kitchen, trash, food waste, rentals.</small></div><span class="priority p0">Now</span></li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ============ DESIGN ============ -->
+<section class="view" id="view-design">
+  <div class="viewhead"><h2>Design <em>system</em></h2><p>Manhattan in the Meadow — inspired by Ralph Lauren's Double RL (RRL): aged leather, dark wood, antique brass, velvet, tailored silhouettes, and editorial styling, dropped into a wild mountain setting. The ranch is the meadow; you bring just enough to create the Manhattan.</p></div>
+  <div class="grid g3" style="align-items:start">
+    <div class="card"><h3>Palette</h3>
+      <div class="palette-swatch"><span class="swatch" style="background:#24190f"></span><div><strong>Espresso / black coffee</strong><br><small>Bar, signage, dinner accents, suit.</small></div></div>
+      <div class="palette-swatch"><span class="swatch" style="background:#704a2a"></span><div><strong>Aged leather / tobacco</strong><br><small>Lounge, benches, wood, frames, rugs.</small></div></div>
+      <div class="palette-swatch"><span class="swatch" style="background:#b48743"></span><div><strong>Antique brass</strong><br><small>Candle holders, lamps, frames.</small></div></div>
+      <div class="palette-swatch"><span class="swatch" style="background:#f7ecd9"></span><div><strong>Cream / warm ivory</strong><br><small>Linens, paper, menus, base tone.</small></div></div>
+      <div class="palette-swatch"><span class="swatch" style="background:#63715a"></span><div><strong>Olive / sage</strong><br><small>Greenery, napkins, natural tie-in.</small></div></div>
+      <div class="palette-swatch"><span class="swatch" style="background:#9a5b35"></span><div><strong>Rust / terracotta</strong><br><small>Fall accent, florals, paper details.</small></div></div>
+      <div class="palette-swatch"><span class="swatch" style="background:#8fa9b5"></span><div><strong>Muted mountain blue</strong><br><small>Small accent, not the main color.</small></div></div>
+    </div>
+    <div class="card"><h3>Floral direction</h3><ul class="tidy" style="font-size:13.5px">
+      <li>Minimal flowers — the ranch and mountains carry the scene.</li>
+      <li>Bud vases instead of large centerpieces.</li>
+      <li>White flowers, blue hydrangea accents, greenery, grasses, branches, warm-toned florals.</li>
+      <li>Skip a large floral arch unless budget grows.</li>
+      <li>Candlelight, lamps, dark wood, and textiles for atmosphere.</li>
+    </ul></div>
+    <div class="card"><h3>Look &amp; feel</h3><ul class="tidy" style="font-size:13.5px">
+      <li>Rustic cocktail bar in a field.</li>
+      <li>Dark wood, aged leather, velvet, brass, ivory paper, warm lamps.</li>
+      <li>Tailored and elegant, <em>not</em> barn-rustic.</li>
+      <li>One strong lounge/bar zone instead of decorating everywhere.</li>
+      <li>Elegant outdoor dinner with long-table warmth.</li>
+    </ul></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px;align-items:start">
+    <div class="card accent-gold"><h3>Attire direction</h3><ul class="tidy" style="font-size:13.5px">
+      <li><b>Suits:</b> charcoal, espresso brown, olive, or navy — textured or lightweight seasonal wool.</li>
+      <li>Tailored and elegant, <em>not</em> barn-rustic. Think Double RL, not country.</li>
+      <li>Bride: clean, fashion-forward, editorial — lean away from boho if you want the urban edge.</li>
+      <li>Polished but not black-tie, unless you want that contrast.</li>
+    </ul></div>
+    <div class="card"><h3>The RL inspiration</h3>
+      <div class="note" style="margin-bottom:10px">The concept comes from Ralph Lauren's Double RL world — "a rustic cocktail bar set in the middle of a field," with moody lamps, velvets, hardwoods, and aged leather.</div>
+      <p style="margin:0;color:var(--ink2);font-size:13.5px"><b>Avoid:</b> mason jars, burlap, bright wildflower overload, overly playful rustic script, and "barn wedding" styling. The mountains plus a few strong objects — bar, benches, lamps, leather, wood, candles, wine, tailored clothes — carry the whole look.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TASKS + TIMELINE ============ -->
+<section class="view" id="view-tasks">
+  <div class="viewhead"><h2>Tasks <em>&amp;</em> timeline</h2><p>Work top-down: lock the foundation, book the core vendors, then design. Checking items here updates the dashboard progress ring.</p></div>
+  <div class="grid g3" style="align-items:start">
+    <div class="card accent-risk"><h3>Lock first</h3><ul class="checklist">
+      <li><input type="checkbox" data-key="t1"><div><strong>Confirm 50-person capacity</strong><br><small>Written approval from venue.</small></div><span class="priority p0">Now</span></li>
+      <li><input type="checkbox" data-key="t2"><div><strong>Set total budget range</strong><br><small>Budget table is the source of truth.</small></div><span class="priority p0">Now</span></li>
+      <li><input type="checkbox" data-key="t3"><div><strong>Decide Top 50 list</strong><br><small>Use the guest manager, confirm family priorities.</small></div><span class="priority p0">Now</span></li>
+      <li><input type="checkbox" data-key="t4"><div><strong>Book coordinator</strong><br><small>A remote venue needs day-of ownership.</small></div><span class="priority p0">Now</span></li>
+    </ul></div>
+    <div class="card accent-gold"><h3>Book next</h3><ul class="checklist">
+      <li><input type="checkbox" data-key="t5"><div><strong>Chef &amp; menu</strong><br><small>Food drives rentals and staffing.</small></div><span class="priority p1">Next</span></li>
+      <li><input type="checkbox" data-key="t6"><div><strong>Rentals</strong><br><small>Tables, chairs, linens, tableware, bar, weather backup.</small></div><span class="priority p1">Next</span></li>
+      <li><input type="checkbox" data-key="t7"><div><strong>Photographer</strong><br><small>Plan mountain portraits after the ceremony.</small></div><span class="priority p1">Next</span></li>
+      <li><input type="checkbox" data-key="t8"><div><strong>Shuttle plan</strong><br><small>Hotels, pickup times, return times.</small></div><span class="priority p1">Next</span></li>
+      <li><input type="checkbox" data-key="t13"><div><strong>Inventory church linens &amp; supplies</strong><br><small>Borrow tablecloths, runners, napkins, vases, easels before renting. See Vendors → Church linens.</small></div><span class="priority p1">Next</span></li>
+    </ul></div>
+    <div class="card accent-ok"><h3>Design after logistics</h3><ul class="checklist">
+      <li><input type="checkbox" data-key="t9"><div><strong>Finalize palette &amp; fonts</strong><br><small>Before any Canva printing.</small></div><span class="priority p2">Soon</span></li>
+      <li><input type="checkbox" data-key="t10"><div><strong>Draft details card</strong><br><small>Altitude, shuttle, lodging, dress code.</small></div><span class="priority p2">Soon</span></li>
+      <li><input type="checkbox" data-key="t11"><div><strong>Build wedding website</strong><br><small>Hotels, RSVP, registry, transport.</small></div><span class="priority p2">Soon</span></li>
+      <li><input type="checkbox" data-key="t12"><div><strong>Print menu &amp; signs</strong><br><small>Only after final menu &amp; seating.</small></div><span class="priority p3">Later</span></li>
+    </ul></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Planning timeline → October 10, 2026</h3>
+    <div class="timeline">
+      <div class="tl"><strong>Now</strong><span>Confirm capacity, budget, Top 50, venue contract, lodging count, coordinator, chef candidates, rental package, shuttle approach.</span></div>
+      <div class="tl"><strong>Next 2 weeks</strong><span>Book core vendors: coordinator, chef, photographer, rentals, shuttle, music/audio.</span></div>
+      <div class="tl"><strong>After vendors</strong><span>Finalize palette, fonts, floral direction, attire, Canva templates.</span></div>
+      <div class="tl"><strong>Invitation phase</strong><span>Send invites with lodging, shuttle, altitude, dress code, RSVP deadline, dietary fields.</span></div>
+      <div class="tl"><strong>Final 6 weeks</strong><span>Close RSVPs, lock seating, print day-of paper, confirm rentals &amp; menu, pack bins, stop redesigning.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VENDORS ============ -->
+<section class="view" id="view-vendors">
+  <div class="viewhead"><h2>Vendors <em>&amp;</em> sourcing</h2><p>Start local to Ouray &amp; Montrose to cut delivery fees. Rent specialty items, borrow church basics, buy only what you can reuse or resell.</p></div>
+  <div class="card"><h3>Vendor tracker</h3>
+    <div class="tablewrap"><table id="vendorTable"><thead><tr><th>Category</th><th>Vendor</th><th>Contact</th><th>Status</th><th>Quote</th><th>Notes</th></tr></thead><tbody>
+      <tr><td contenteditable="true" data-key="vcat1">Venue</td><td contenteditable="true" data-key="vname1">Gold Mountain Ranch</td><td contenteditable="true" data-key="vcontact1">Jes / venue team</td><td><select data-key="vstatus1"><option>Booked</option><option>Need info</option><option>Contacted</option><option>Paid</option></select></td><td contenteditable="true" data-key="vquote1">$14,000 confirmed</td><td contenteditable="true" data-key="vnotes1">Confirm 50-person approval, included furniture, candles, BYOB, parking, shuttle, weather backup.</td></tr>
+      <tr><td contenteditable="true" data-key="vcat2">Rentals</td><td contenteditable="true" data-key="vname2">Western Slope Party Rentals</td><td contenteditable="true" data-key="vcontact2">Montrose, CO</td><td><select data-key="vstatus2"><option>Need info</option><option>Contacted</option><option>Booked</option><option>Paid</option></select></td><td contenteditable="true" data-key="vquote2">TBD</td><td contenteditable="true" data-key="vnotes2">Tables, chairs, linens, flatware, bars, AV, tents.</td></tr>
+      <tr><td contenteditable="true" data-key="vcat3">Rentals / Florals</td><td contenteditable="true" data-key="vname3">Alpine Events</td><td contenteditable="true" data-key="vcontact3">Montrose, CO</td><td><select data-key="vstatus3"><option>Need info</option><option>Contacted</option><option>Booked</option><option>Paid</option></select></td><td contenteditable="true" data-key="vquote3">TBD</td><td contenteditable="true" data-key="vnotes3">Rentals, florals, lounge, lighting, candles, tabletop.</td></tr>
+      <tr><td contenteditable="true" data-key="vcat4">Lounge / Styling</td><td contenteditable="true" data-key="vname4">Kosi Rentals</td><td contenteditable="true" data-key="vcontact4">Western Colorado</td><td><select data-key="vstatus4"><option>Need info</option><option>Contacted</option><option>Booked</option><option>Paid</option></select></td><td contenteditable="true" data-key="vquote4">TBD</td><td contenteditable="true" data-key="vnotes4">Leather, velvet, rugs, styled lounge pieces only if needed.</td></tr>
+      <tr><td contenteditable="true" data-key="vcat5">Church / Borrowed</td><td contenteditable="true" data-key="vname5">Church inventory</td><td contenteditable="true" data-key="vcontact5">TBD</td><td><select data-key="vstatus5"><option>Need info</option><option>Contacted</option><option>Booked</option><option>Paid</option></select></td><td contenteditable="true" data-key="vquote5">$0 to TBD</td><td contenteditable="true" data-key="vnotes5">Linens, vases, easels, serving pieces, dispensers, cords, coolers.</td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px;align-items:start">
+    <div class="card accent-gold"><h3>Venue team — who to contact</h3>
+      <div class="tablewrap"><table><thead><tr><th>Person</th><th>Role</th><th>For</th></tr></thead><tbody>
+        <tr><td><b>Jes</b></td><td>Director of Guest Experiences &amp; Partnerships</td><td>Main planning contact — email her first. Capacity, included furniture, gathering spaces, preferred vendors, candle/alcohol rules, weather backup.</td></tr>
+        <tr><td>Dustin</td><td>Onsite Property Manager</td><td>Property &amp; seasonal readiness, access, load-in.</td></tr>
+        <tr><td>Keller</td><td>Operations Manager</td><td>Operations &amp; long-term stewardship.</td></tr>
+        <tr><td>Logan</td><td>Founder, Via Ferrata / Basecamp Ouray</td><td>Adventure / activity side of the ranch.</td></tr>
+        <tr><td>Rick &amp; Sandra</td><td>Founders</td><td>Discovered &amp; developed the property.</td></tr>
+      </tbody></table></div>
+      <div class="note" style="margin-top:10px">First question for Jes: <em>"Can we host 50, or is the firm cap ~40? If 50 is allowed, what changes in cost, bathrooms, parking, insurance, rentals, staffing, and layout?"</em></div>
+    </div>
+    <div class="card accent-ok"><h3>Church linens &amp; borrowed inventory</h3>
+      <p style="margin:0 0 8px;color:var(--ink2);font-size:13.5px">Borrow before you rent — linens, vases, and signage stands quietly add up to hundreds. Ask about:</p>
+      <div class="kit-list">
+        <div class="note"><strong>Linen sizes</strong><br>6-ft &amp; 8-ft rectangular cloths, round cloths, cocktail-table linens, cloth napkins, table runners.</div>
+        <div class="note"><strong>Also ask for</strong><br>Table numbers, vases, candles &amp; holders, serving trays, drink dispensers, easels, tablecloth clips, extension cords, portable speakers, sign stands.</div>
+        <div class="note"><strong>Confirm</strong><br>Colors (white, ivory, black, seasonal), how many are clean &amp; usable, whether they must be professionally washed before return, and if there's an inventory list.</div>
+        <div class="note"><strong>Do</strong><br>Take photos of everything available so you can compare against the wedding look.</div>
+      </div>
+      <div style="margin-top:12px"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px"><span class="eyebrow" style="color:var(--muted)">Message to send</span><button class="btn sm" onclick="copyMsg('churchMsg',this)">Copy message</button></div>
+      <div id="churchMsg" class="note" style="white-space:pre-wrap;line-height:1.55">Hey! I'm working through wedding rental and decor planning today and wanted to check whether the church has any linens or table items we might be able to borrow before we rent everything. Do we have tablecloths, runners, napkins, vases, easels, signage stands, serving trays, drink dispensers, or anything like that in storage? If so, do you know what sizes, colors, and quantities we have? I can also come by and take inventory if that's easier.</div>
+      </div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:16px;align-items:start">
+    <div class="card"><h3>Where to get tables &amp; rentals</h3>
+      <div class="tablewrap"><table><thead><tr><th>Source</th><th>Use for / why</th></tr></thead><tbody>
+        <tr><td>Gold Mountain Ranch</td><td>Included benches, tables, spaces, lighting — use before renting (no delivery fee).</td></tr>
+        <tr><td>Western Slope Party Rentals (Montrose/Ridgway)</td><td>First call — tables, chairs, linens, bars, flatware, AV, tents. Local = cheaper delivery.</td></tr>
+        <tr><td>Alpine Events (Montrose)</td><td>Rentals + florals/decor bundled — one delivery fee.</td></tr>
+        <tr><td>Premiere Special Events (Telluride)</td><td>Tents, glassware, seating, linens. Knows San Juan mountain weddings — prevents costly access/weather mistakes.</td></tr>
+        <tr><td>Kosi Rentals (Western CO)</td><td>One lounge set, rugs, styled bar pieces — focal pieces only.</td></tr>
+        <tr><td>Elite Events / Mountain State (Grand Junction)</td><td>Larger inventory &amp; good backup quotes — compare delivery vs. Montrose.</td></tr>
+        <tr><td>Church inventory</td><td>Linens, vases, easels, trays, dispensers, cords — can save hundreds.</td></tr>
+        <tr><td>Costco · Sam's · Walmart · Home Depot · Lowe's · Facebook Marketplace · Buy Nothing</td><td>Folding tables, coolers, candles, frames, lamps — buy only if reusable/resellable.</td></tr>
+      </tbody></table></div>
+      <div class="note" style="margin-top:10px"><b>Why local is cheaper:</b> Montrose/Ridgway is far closer than Denver, so delivery &amp; pickup cost less. Bundling tables + chairs + linens + bar with one company cuts repeat delivery fees. Borrow church basics, rent only what's missing, and buy only what you'll reuse.</div>
+    </div>
+    <div class="card"><h3>Rent vs. buy</h3>
+      <div class="kit-list">
+        <div class="note"><strong>Rent</strong><br>Tables, chairs, benches, linens, plates, flatware, glassware, bar, lounge furniture, rugs, dance floor, tent, sound.</div>
+        <div class="note"><strong>Borrow first</strong><br>Church linens, vases, easels, frames, trays, dispensers, coolers, cords, table numbers.</div>
+        <div class="note"><strong>Buy if reusable</strong><br>Candles, battery lamps, signs, frames, guest book items, emergency bins, weekend food.</div>
+        <div class="note"><strong>Skip / minimize</strong><br>Favors, huge florals, champagne toast, full bar, oversized dance floor, excess signage.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRINT ============ -->
+<section class="view" id="view-print">
+  <div class="viewhead"><h2>Canva <em>&amp;</em> print list</h2><p>Tackle these after guest logistics and the visual system are locked. Everything should share the same palette and fonts.</p></div>
+  <div class="grid g3" style="align-items:start">
+    <div class="card"><h3>Guest-facing</h3><ul class="checklist">
+      <li><input type="checkbox" data-key="p1"><div><strong>Invitation</strong><br><small>5×7, formal details.</small></div><span class="priority p1">July</span></li>
+      <li><input type="checkbox" data-key="p2"><div><strong>Details card</strong><br><small>Hotels, shuttle, altitude, dress code.</small></div><span class="priority p1">July</span></li>
+      <li><input type="checkbox" data-key="p3"><div><strong>Website graphics</strong><br><small>Same palette &amp; fonts.</small></div><span class="priority p1">July</span></li>
+    </ul></div>
+    <div class="card"><h3>Wedding-day paper</h3><ul class="checklist">
+      <li><input type="checkbox" data-key="p4"><div><strong>Menu cards</strong><br><small>After final menu.</small></div><span class="priority p2">Sept</span></li>
+      <li><input type="checkbox" data-key="p5"><div><strong>Name cards</strong><br><small>From seating chart.</small></div><span class="priority p2">Sept</span></li>
+      <li><input type="checkbox" data-key="p6"><div><strong>Seating chart</strong><br><small>After RSVPs close.</small></div><span class="priority p2">Sept</span></li>
+    </ul></div>
+    <div class="card"><h3>Signs</h3><ul class="tidy" style="font-size:13.5px">
+      <li>Welcome sign</li><li>Bar menu</li><li>Guest book sign</li><li>Shuttle pickup &amp; return signs</li><li>Unplugged ceremony sign (optional)</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ============ NOTES ============ -->
+<section class="view" id="view-notes">
+  <div class="viewhead"><h2>Open <em>notes</em></h2><p>A flexible scratchpad for ideas, vendor notes, family questions, and decisions.</p></div>
+  <div class="card"><textarea data-key="scratchpad" style="min-height:280px">Add open ideas, vendor notes, family questions, and design decisions here.</textarea></div>
+</section>
+</main>
+</div>
+<!--SCRIPT-->
+<script>
+/* ---------- data (preserved from your planner) ---------- */
+const DEFAULT_BUDGET = [{"category": "Venue", "item": "Gold Mountain Ranch venue and lodging, both nights", "status": "Booked / Confirmed price", "min": 14000, "max": 14000, "notes": "Locked venue/lodging total for both nights. This is the largest fixed cost and the base of the whole budget."}, {"category": "Ceremony", "item": "Wooden benches for 50 guests", "status": "Estimate", "min": 250, "max": 250, "notes": "Assumes 10 benches at $25 each, about 5 guests per bench. Confirm delivery and refundable damage deposits."}, {"category": "Ceremony", "item": "Ceremony rug, small greenery, mic/speaker", "status": "Need quote", "min": 250, "max": 900, "notes": "Minimal ceremony styling. No large floral arch unless budget increases."}, {"category": "Food", "item": "Catering, appetizers, dinner, dessert, service/travel", "status": "Need quote", "min": 5500, "max": 7500, "notes": "Target buffet or family-style dinner for 50. Ask whether plates, flatware, water service, serving pieces, and cleanup are included."}, {"category": "Bar", "item": "Wine, mocktails, water, sparkling water, ice, garnishes", "status": "Estimate", "min": 900, "max": 1800, "notes": "Wine and mocktails only. Guests bring additional alcohol only if venue confirms BYOB rules and liability in writing."}, {"category": "Bar", "item": "Dark wood bar rental and bartender/drink attendant", "status": "Need quote", "min": 450, "max": 1400, "notes": "Main Manhattan in the Meadow focal point. Prioritize a strong bar look over extra flowers."}, {"category": "Rentals", "item": "Dinner tables, serving tables, cocktail tables", "status": "Need quote", "min": 350, "max": 900, "notes": "Use basic banquet tables dressed well. Avoid expensive farm tables unless the quote is reasonable."}, {"category": "Rentals", "item": "Linens, cloth napkins, plates, flatware, glassware", "status": "Need quote", "min": 900, "max": 2200, "notes": "Check church linens first, then rent missing items. Ask caterer what is included before booking separately."}, {"category": "Design / Decor", "item": "Candles, lamps, bud vases, frames, signage", "status": "Estimate", "min": 600, "max": 1400, "notes": "Core theme details. Use warm light and texture instead of heavy florals."}, {"category": "Design / Decor", "item": "Leather/velvet lounge area, rug, side tables", "status": "Optional / Need quote", "min": 600, "max": 1600, "notes": "One styled lounge/photo zone. Do not rent lounge furniture for the whole property."}, {"category": "Florals", "item": "Bouquet, boutonniere, bud vases, small bar arrangement", "status": "Need quote", "min": 600, "max": 1200, "notes": "Minimal floral plan. Use the mountains as the main visual backdrop."}, {"category": "Weekend food", "item": "Day-before food, breakfast, snacks, coffee", "status": "Estimate", "min": 600, "max": 1200, "notes": "Casual Costco/grocery/drop-catering plan for onsite guests. Keep this simple."}, {"category": "Staffing", "item": "Coordinator and setup helpers", "status": "Need quote", "min": 1800, "max": 3200, "notes": "Important for a remote mountain property. Coordinator should manage load-in, timing, and vendors."}, {"category": "Photo", "item": "Photographer", "status": "Need quote", "min": 3000, "max": 4500, "notes": "Prioritize photography because the venue is scenic and the theme depends on atmosphere."}, {"category": "Music / Sound", "item": "Speaker rental, mic, playlist, or small DJ package", "status": "Need decision", "min": 400, "max": 1500, "notes": "Budget path is speaker/mic and curated playlists. Upgrade if dancing is central."}, {"category": "Attire", "item": "Suit, accessories, dress-related extras", "status": "Estimate", "min": 700, "max": 1800, "notes": "Suit direction: espresso, charcoal, olive, navy, or brown. Tailored, not rustic."}, {"category": "Printing", "item": "Invites, menus, seating chart, bar menu, signs", "status": "Need design", "min": 250, "max": 700, "notes": "Use Canva and thrifted frames. Keep paper minimal and editorial."}, {"category": "Legal / Insurance", "item": "Marriage license, event insurance, liquor liability if required", "status": "Need info", "min": 300, "max": 1000, "notes": "Confirm venue insurance and BYOB requirements."}, {"category": "Contingency", "item": "Delivery, taxes, tips, weather, forgotten items", "status": "Reserve", "min": 2000, "max": 3000, "notes": "Do not spend this early. This protects the $30,000 plan."}];
+
+const DEFAULT_GUESTS = [{"side": "Jake", "name": "Mother DeRosa", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Mother Van Nortwick", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Father DeRosa", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Father Van Nortwick", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Brother Michal DeRosa", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Brother Evan Van Nortwick", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Brother Matthew DeRosa", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Krista Rietema", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Karen Gargamli", "priority": "C", "status": "Reserve"}, {"side": "Mya", "name": "Jayme Rietema", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Shaun Gargamli", "priority": "C", "status": "Reserve"}, {"side": "Mya", "name": "Nancy Bush", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Paul DeRosa", "priority": "B", "status": "Top 50"}, {"side": "Mya", "name": "Melinda Van Nortwick", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Brooke DeRosa", "priority": "B", "status": "Top 50"}, {"side": "Mya", "name": "Marvin Van Nortwick", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Chris Gargameli", "priority": "C", "status": "Reserve"}, {"side": "Mya", "name": "Tom Guisti", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Melanie Gargameli", "priority": "C", "status": "Reserve"}, {"side": "Mya", "name": "Ami Guisti", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Pat Noon", "priority": "C", "status": "Reserve"}, {"side": "Mya", "name": "Tim Owen", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Christine Noon", "priority": "C", "status": "Reserve"}, {"side": "Mya", "name": "Amy Owen", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Kevin Gargameli", "priority": "C", "status": "Reserve"}, {"side": "Mya", "name": "Mitchell Rietema", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Pauline Gargameli", "priority": "C", "status": "Reserve"}, {"side": "Mya", "name": "Taylor Rietema", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Ann Gargameli", "priority": "C", "status": "Reserve"}, {"side": "Mya", "name": "John Chomoa", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Pete Cuticelli", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Chris Chomoa", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Lori Cuticelli", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Kendra Phillips", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Joe Cuticelli", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Ray Phillips", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Leslie Cuticelli", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Christy Richards", "priority": "C", "status": "Reserve"}, {"side": "Jake", "name": "Dave LaFlur", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Husband Richards", "priority": "C", "status": "Reserve"}, {"side": "Jake", "name": "Kathrine LaFlur", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Annie Whitney", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Mari Cuticelli", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Oat Whitney", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Mary DeRosa", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Violet Whitney", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Grandma Terri Cuticelli", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Connor Rietema", "priority": "C", "status": "Reserve"}, {"side": "Jake", "name": "Austin Mesnard", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Jaylynn Medina", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Vin Cretella", "priority": "C", "status": "Reserve"}, {"side": "Mya", "name": "Ellie Clifford", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Jay Cho", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Chloe Sabo", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Mike Xiao", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Cassy Hayes", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Mikai Misner", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Ella Brandt", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Ian Andrews", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Meg Robertson", "priority": "A", "status": "Top 50"}, {"side": "Jake", "name": "Rachel Kupen", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Jayli Roblar", "priority": "A", "status": "Top 50"}, {"side": "Mya", "name": "Nate Swedburg", "priority": "Unrated", "status": "Reserve"}, {"side": "Mya", "name": "Alexis Swedburg", "priority": "A", "status": "Top 50"}].map(g=>Object.assign({relationship:"",lodging:"Off property",shuttle:"Needs shuttle",rsvp:"Not sent",meal:"",notes:""},g));
+
+const ZONES = [
+ {name:"Ceremony", ic:"💍", items:[
+   ["Wooden benches","10 (seat ~5 each)","$250","Ceremony seating for 50","Warm, tailored, ranch-right — better than folding chairs. ~$50 refundable deposit per bench may apply."],
+   ["Ceremony aisle / front rug","1","$75–$200","Defines the ceremony space","Old-world, interior feeling outdoors — very Double RL."],
+   ["Ground florals / grounded pieces","0–2","$0–$500","Front-of-ceremony detail","Minimal. Skip the arch and let the mountains lead."],
+   ["Welcome sign","1","$40–$150","Guest arrival","Serif, tonal, editorial — never rustic script."],
+   ["Easel / sign stand","1","$0–$35","Holds the sign","Borrow from church first."],
+   ["Officiant mic & small speaker","1 setup","$0–$250","Vows & music outdoors","So guests can hear without overproducing it."],
+   ["Reserved seat markers","4–6","$0–$30","Family rows","DIY with ribbon or cards."]]},
+ {name:"Cocktail / Bar — the main RL moment", ic:"🥃", items:[
+   ["Dark-wood bar rental","1","$150–$500","Wine & mocktail service","The central \"Manhattan\" moment — prioritize this over flowers."],
+   ["Bartender / drink attendant","1–2","$250–$700","Serve & manage flow (incl. guest BYOB if allowed)","Keeps it polished and controlled."],
+   ["Wine","15–24 bottles","$180–$600","Dinner & reception","Wine-forward at ~$12–$25 / bottle."],
+   ["Mocktail batch ingredients","2–3 mocktails","$150–$525","Signature NA drinks","Elevated bar without the liquor cost."],
+   ["Still & sparkling water","50–75 servings","$50–$150","Non-alcoholic option","Practical and clean."],
+   ["Ice","80–120 lb","$25–$90","Bar, wine chilling, water","Easy to forget — budget it now."],
+   ["Coolers / beverage tubs","3–5","$0–$200","Keep drinks cold","Borrow before buying."],
+   ["Glassware (rented) or compostable cups","75–100","$25–$125","Bar drinks","Rented glass elevates; disposables are cheaper."],
+   ["Garnishes","for 50","$30–$100","Mocktails","Citrus, herbs, cherries."],
+   ["Cocktail napkins","100","$10–$30","Bar service","Dark green, ivory, black, or taupe."],
+   ["Bar menu sign","1","$15–$60","Wine & mocktail list","Small, polished detail."],
+   ["Backbar shelf / styled bar decor","1","$0–$200","Lamp, bottles, framed menu","Makes the theme visible — the styled \"shelf moment.\""],
+   ["Bar table lamp","1–2","$0–$150","Warm bar glow","Critical for the moody cocktail look."]]},
+ {name:"Dinner — food & service", ic:"🍽️", items:[
+   ["Dinner catering","50 guests","$4,000–$6,000","The main meal ($80–$120 / pp)","Buffet or family-style; steak & pasta / Italian direction."],
+   ["Appetizers","50 guests","$400–$900","Cocktail-hour food ($8–$18 / pp)","Keeps guests comfortable."],
+   ["Dessert","50 guests","$250–$600","Cake / minis ($5–$12 / pp)","Often cheaper than one large cake."],
+   ["Catering staff / service","2–4","$300–$1,200","Setup, service, cleanup","Needed for outdoor flow."],
+   ["Catering travel / delivery","1","$150–$750","Ouray / mountain delivery","Ask every caterer to itemize this."]]},
+ {name:"Dinner — tabletop, cutlery & rentals", ic:"🍴", items:[
+   ["Dinner tables (banquet)","6–8","$72–$200","Guest seating","Cheaper than farm tables; dress with linen."],
+   ["Chairs or reused benches","50 seats","$0–$400","Dinner seating","Reuse ceremony benches if timing works."],
+   ["Serving / buffet tables","2–3","$20–$75","Food service","Dress with linen."],
+   ["Table linens","6–8","$90–$280","Cover basic tables","Borrow church linens first."],
+   ["Cloth napkins","60","$60–$180","Place settings","Tonal neutrals add polish."],
+   ["Dinner plates","60","$45–$120","Dinner & extras","Rent or compostable."],
+   ["Flatware / cutlery sets","60","$60–$180","Forks, knives, spoons","Rent matte or vintage-tone to match the RL look."],
+   ["Water glasses / goblets","60","$45–$120","Water service","Real glass elevates the table."],
+   ["Wine glasses","50–60","$40–$120","Wine service","Can share the count with the bar."],
+   ["Chafing / serving pieces","as needed","$0–$300","Hot food","Caterer may include — ask first."],
+   ["Printed menus","50","$25–$100","Place-setting detail","Serif, editorial."],
+   ["Table numbers","6–8","$0–$80","Guest flow","DIY."]]},
+ {name:"Candles & lighting", ic:"🕯️", items:[
+   ["Battery table lamps","6–10","$90–$400","Dinner, bar & lounge","The \"city cocktail\" glow — a top theme driver."],
+   ["Votives","40–80","$40–$240","Dinner tables","Warm, layered light."],
+   ["Taper candles","20–40","$20–$160","Dinner tables","Elegant and editorial."],
+   ["Candle holders","20–40","$0–$200","Hold candles","Brass preferred; thrift or borrow."],
+   ["Bud vases","20–30","$0–$150","Minimal florals","Keeps flowers restrained."],
+   ["String lights (only if needed)","1 setup","$0–$700","Reception / dancing","Only if the venue lacks lighting."],
+   ["Extension cords / batteries","as needed","$30–$150","Power logistics","Always forgotten — note it now."]]},
+ {name:"Reception / Lounge styling", ic:"🛋️", items:[
+   ["Leather or velvet sofa / loveseat","1","$150–$400","Lounge & photo area","Aged leather or velvet anchors the RL theme."],
+   ["Lounge chairs","2","$150–$400","Seating","Builds the cocktail-bar feeling."],
+   ["Coffee / side tables","1–3","$25–$300","Lounge styling","Wood or brass preferred."],
+   ["Rug","1–2","$50–$300","Define the lounge outdoors","Makes the meadow feel like an interior room."],
+   ["Lamps","2–4","$0–$300","Warm light","Critical for the mood."],
+   ["Cocktail tables","3–5","$36–$150","Cocktail-hour gathering","Useful, not overdone."],
+   ["Cocktail table linens","3–5","$30–$125","Soften cocktail tables","Darker neutrals."],
+   ["Framed bar / menu / signage","2–4","$20–$160","Style & info","DIY or thrift."],
+   ["Whiskey barrel / wood pedestal","1–2","$30–$150","Polished rustic anchor","Use sparingly."]]},
+ {name:"Florals (minimal)", ic:"🌿", items:[
+   ["Bridal bouquet","1","$150–$350","Personal flowers","Elegant and restrained."],
+   ["Boutonnière(s)","1–3","$20–$105","Groom / family","Minimal."],
+   ["Bud-vase florals","20–30","$100–$450","Dinner tables","Better than large centerpieces."],
+   ["Bar floral / branch moment","1","$50–$150","Bar styling","One focal textural piece."],
+   ["Greenery / branches / grasses","as needed","$50–$200","Texture","Fits the ranch; reads RL."]]},
+ {name:"Music / Sound", ic:"🎵", items:[
+   ["Speaker rental (DIY playlists)","1–2","$100–$400","Ceremony, cocktail & dinner","Cheapest strong path."],
+   ["Wireless mic","1","$50–$150","Ceremony & toasts","Needed outdoors."],
+   ["Small DJ package (optional)","1","$1,000–$2,500","Reception dancing","Only if dancing is central."],
+   ["Small rug / dance area (optional)","1","$75–$200","Intimate dance space","Alternative to a full dance floor."]]},
+ {name:"Signage & paper", ic:"✒️", items:[
+   ["Welcome sign","1","$40–$150","Arrival","Simple and elegant."],
+   ["Bar menu","1","$15–$60","Wine & mocktails","Necessary."],
+   ["Seating chart / escort cards","1 / 50","$25–$150","Dinner flow","If you assign seats."],
+   ["Dinner menus","50","$25–$100","Table styling","Optional but nice."],
+   ["Directional signs","2–4","$20–$160","Venue flow","Ask the venue first."],
+   ["Frames / easels","3–6","$0–$210","Display","Borrow or thrift."]]},
+ {name:"Weekend / day-before food", ic:"🧀", items:[
+   ["Welcome dinner / drop catering","20–30 onsite","$300–$900","Lodging guests & family","Relaxed ranch arrival ($15–$30 / pp)."],
+   ["Breakfast items","20–30","$100–$360","Morning of","Greek yogurt, granola, fruit, bagels."],
+   ["Coffee","20–30","$40–$150","Mornings","Important — don't skip."],
+   ["Snacks","20–30","$60–$240","Arrival & getting ready","Charcuterie; prevents stress."],
+   ["Paper goods / casual serveware","1 set","$50–$150","Non-wedding meals","Keep separate from wedding rentals."],
+   ["Ice / drinks","1 set","$50–$150","Day-before drinks","Practical."]]},
+ {name:"Logistics", ic:"🧭", items:[
+   ["Coordinator & setup help","1 + helpers","$1,500–$3,200","Timeline, rentals, load-in, family flow","Choose month-of / day-of (not full planning) to save."]]},
+ {name:"Weather / Buffer", ic:"⛰️", items:[
+   ["Delivery, fees, tips, taxes, forgotten items","Reserve","$2,000–$3,000","Protection against late surprises","Do not spend this early."]]}
+];
+
+const NAV = [
+ ["dashboard","🏔","Dashboard"],["budget","💰","Budget"],["dayof","📋","Day-of needs"],
+ ["guests","👥","Guests"],["lodging","🛏","Lodging & shuttles"],["food","🍽","Food & menu"],
+ ["design","🎨","Design system"],["tasks","✓","Tasks & timeline"],["vendors","📇","Vendors"],
+ ["print","🖨","Canva & print"],["notes","✎","Notes"]
+];
+const TASK_KEYS=['t1','t2','t3','t4','t5','t6','t7','t8','t13','t9','t10','t11','t12'];
+const NOW_TASKS=[['t1','Confirm 50-person capacity','Written approval from the venue'],['t2','Set total budget range','Use the budget table as truth'],['t3','Decide the Top 50 list','Confirm family priorities'],['t4','Book a coordinator','A remote venue needs day-of ownership']];
+const TARGET=30000;
+const WEDDING=new Date('2026-10-10T00:00:00');
+
+/* ---------- state ---------- */
+/* refresh built-in budget when the plan structure changes (keeps your guest edits) */
+const PLANNER_VERSION='rl_v3_no_transport';
+if(localStorage.getItem('jm_planner_version')!==PLANNER_VERSION){localStorage.removeItem('jm_budget');localStorage.setItem('jm_planner_version',PLANNER_VERSION);}
+let guests = JSON.parse(localStorage.getItem('jm_guests') || JSON.stringify(DEFAULT_GUESTS));
+let budget = JSON.parse(localStorage.getItem('jm_budget') || JSON.stringify(DEFAULT_BUDGET));
+
+/* ---------- helpers ---------- */
+function money(n){return '$'+Number(n||0).toLocaleString(undefined,{maximumFractionDigits:0})}
+function rangeText(lo,hi){return money(lo)+' – '+money(hi)}
+function escapeHtml(s){return String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function escapeAttr(s){return escapeHtml(s).replace(/"/g,'&quot;')}
+
+/* ---------- nav / views ---------- */
+function buildNav(){
+  const n=document.getElementById('nav');
+  n.innerHTML=NAV.map(([id,ic,label],i)=>`<button class="navbtn${i===0?' active':''}" data-view="${id}" onclick="switchView('${id}',this)"><span class="ic">${ic}</span>${label}</button>`).join('');
+}
+function switchView(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showTab(id,btn){
+  const pane=document.getElementById(id);
+  pane.parentElement.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('active'));
+  pane.classList.add('active');
+  btn.parentElement.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+/* ---------- persistence ---------- */
+function saveAll(){
+  localStorage.setItem('jm_guests',JSON.stringify(guests));
+  localStorage.setItem('jm_budget',JSON.stringify(budget));
+  document.querySelectorAll('[data-key]').forEach(el=>{
+    if(el.tagName==='INPUT'&&el.type==='checkbox')localStorage.setItem('jm_'+el.dataset.key,el.checked?'1':'0');
+    else if(el.tagName==='SELECT'||el.tagName==='TEXTAREA'||el.tagName==='INPUT')localStorage.setItem('jm_'+el.dataset.key,el.value);
+    else localStorage.setItem('jm_'+el.dataset.key,el.innerHTML);
+  });
+  renderDashboard();
+}
+function loadFields(){
+  document.querySelectorAll('[data-key]').forEach(el=>{
+    const v=localStorage.getItem('jm_'+el.dataset.key);
+    if(v!==null){
+      if(el.tagName==='INPUT'&&el.type==='checkbox')el.checked=v==='1';
+      else if(el.tagName==='SELECT'||el.tagName==='TEXTAREA'||el.tagName==='INPUT')el.value=v;
+      else el.innerHTML=v;
+    }
+    el.addEventListener('input',saveAll);
+    el.addEventListener('change',saveAll);
+  });
+}
+
+/* ---------- budget ---------- */
+const BASE_STATUS=['Need decision','Need info','Need quote','Need design','Estimate','Contacted','Booked','Booked / Confirmed price','Paid','Reserve','Optional','Optional / Need quote'];
+function statusOptions(cur){const set=[...new Set([...BASE_STATUS,cur])];return set.map(s=>`<option ${s===cur?'selected':''}>${escapeHtml(s)}</option>`).join('')}
+function renderBudget(){
+  const body=document.querySelector('#budgetTable tbody'); body.innerHTML='';
+  budget.forEach((b,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><input value="${escapeAttr(b.category)}" oninput="budget[${i}].category=this.value;saveAll()"></td>`+
+    `<td><input value="${escapeAttr(b.item)}" oninput="budget[${i}].item=this.value;saveAll()"></td>`+
+    `<td><select onchange="budget[${i}].status=this.value;saveAll();renderBudget()">${statusOptions(b.status)}</select></td>`+
+    `<td class="num"><input type="number" value="${b.min}" oninput="budget[${i}].min=Number(this.value);saveAll();renderBudget()"></td>`+
+    `<td class="num"><input type="number" value="${b.max}" oninput="budget[${i}].max=Number(this.value);saveAll();renderBudget()"></td>`+
+    `<td><textarea oninput="budget[${i}].notes=this.value;saveAll()">${escapeHtml(b.notes)}</textarea></td>`+
+    `<td><button class="btn sm" onclick="budget.splice(${i},1);saveAll();renderBudget()">✕</button></td>`;
+    body.appendChild(tr);
+  });
+  const s=budgetSummary(); const top=guests.filter(g=>g.status==='Top 50').length||50;
+  document.getElementById('baseRange').textContent=rangeText(s.lo,s.hi);
+  document.getElementById('buffer10').textContent=rangeText(s.lo*1.10,s.hi*1.10);
+  document.getElementById('buffer15').textContent=rangeText(s.lo*1.15,s.hi*1.15);
+  document.getElementById('buffer20').textContent=rangeText(s.lo*1.20,s.hi*1.20);
+  document.getElementById('perGuest').textContent=rangeText(s.lo/top,s.hi/top);
+}
+function addBudgetRow(){budget.push({category:'New category',item:'New item',status:'Estimate',min:0,max:0,notes:''});saveAll();renderBudget();}
+function budgetSummary(){
+  let lo=0,hi=0,committed=0,byCat={};
+  budget.forEach(b=>{const mn=Number(b.min||0),mx=Number(b.max||0),mid=(mn+mx)/2;lo+=mn;hi+=mx;
+    if(/booked|paid/i.test(b.status||''))committed+=mid;
+    byCat[b.category]=(byCat[b.category]||0)+mid;});
+  return {lo,hi,mid:(lo+hi)/2,committed,byCat};
+}
+
+/* ---------- guests ---------- */
+function guestTable(list){
+  if(!list.length)return '<div class="note" style="margin:8px">No guests in this section yet.</div>';
+  let h='<table class="guest-table"><thead><tr><th>#</th><th>Name</th><th>Side</th><th>Pri</th><th>Status</th><th>Lodging</th><th>Shuttle</th><th>RSVP</th><th>Notes</th></tr></thead><tbody>';
+  list.forEach((g,idx)=>{const i=guests.indexOf(g);
+    h+=`<tr><td>${idx+1}</td>`+
+    `<td><input value="${escapeAttr(g.name)}" oninput="guests[${i}].name=this.value;saveAll();renderGuests()"></td>`+
+    `<td><select onchange="guests[${i}].side=this.value;saveAll();renderGuests()">${['Jake','Mya','Both'].map(s=>`<option ${g.side===s?'selected':''}>${s}</option>`).join('')}</select></td>`+
+    `<td><select onchange="guests[${i}].priority=this.value;saveAll();renderGuests()">${['A','B','C','Unrated'].map(s=>`<option ${g.priority===s?'selected':''}>${s}</option>`).join('')}</select></td>`+
+    `<td><select onchange="guests[${i}].status=this.value;saveAll();renderGuests()">${['Top 50','Reserve','Removed'].map(s=>`<option ${g.status===s?'selected':''}>${s}</option>`).join('')}</select></td>`+
+    `<td><select onchange="guests[${i}].lodging=this.value;saveAll()">${['Off property','On property','TBD'].map(s=>`<option ${g.lodging===s?'selected':''}>${s}</option>`).join('')}</select></td>`+
+    `<td><select onchange="guests[${i}].shuttle=this.value;saveAll()">${['Needs shuttle','Driving approved','On property','TBD'].map(s=>`<option ${g.shuttle===s?'selected':''}>${s}</option>`).join('')}</select></td>`+
+    `<td><select onchange="guests[${i}].rsvp=this.value;saveAll();renderGuests()">${['Not sent','Sent','Yes','No','Maybe'].map(s=>`<option ${g.rsvp===s?'selected':''}>${s}</option>`).join('')}</select></td>`+
+    `<td><input value="${escapeAttr(g.notes||'')}" oninput="guests[${i}].notes=this.value;saveAll()"></td></tr>`;
+  });
+  return h+'</tbody></table>';
+}
+function renderGuests(){
+  const top=guests.filter(g=>g.status==='Top 50'),reserve=guests.filter(g=>g.status==='Reserve'),removed=guests.filter(g=>g.status==='Removed');
+  document.getElementById('topTableWrap').innerHTML=guestTable(top);
+  document.getElementById('reserveTableWrap').innerHTML=guestTable(reserve);
+  document.getElementById('removedTableWrap').innerHTML=guestTable(removed);
+  document.getElementById('allTableWrap').innerHTML=guestTable(guests);
+  document.getElementById('topCount').textContent=top.length;
+  document.getElementById('reserveCount').textContent=reserve.length;
+  document.getElementById('allCount').textContent=guests.length;
+  document.getElementById('openSpots').textContent=Math.max(0,50-top.length);
+  renderDashboard();
+}
+function addGuestRow(){guests.push({side:'Both',name:'New guest',priority:'Unrated',status:'Reserve',relationship:'',lodging:'Off property',shuttle:'Needs shuttle',rsvp:'Not sent',meal:'',notes:''});saveAll();renderGuests();}
+function sortGuests(){const order={'Top 50':0,'Reserve':1,'Removed':2},pri={'A':0,'B':1,'C':2,'Unrated':3};guests.sort((a,b)=>(order[a.status]-order[b.status])||(pri[a.priority]-pri[b.priority])||a.side.localeCompare(b.side)||a.name.localeCompare(b.name));saveAll();renderGuests();}
+function autoBuildTop50(){const pri={'A':0,'B':1,'C':2,'Unrated':3};guests.forEach(g=>g.status='Reserve');[...guests].sort((a,b)=>pri[a.priority]-pri[b.priority]).slice(0,50).forEach(g=>g.status='Top 50');saveAll();renderGuests();}
+
+/* ---------- day-of zones ---------- */
+function renderZones(){
+  const wrap=document.getElementById('zoneCards');
+  wrap.innerHTML=ZONES.map(z=>`<div class="card accent-gold" style="margin-bottom:16px"><div class="ch"><h3>${z.ic} ${z.name}</h3><span class="tag gold">${z.items.length} item${z.items.length>1?'s':''}</span></div>`+
+    `<div class="tablewrap"><table><thead><tr><th>Item</th><th>Qty</th><th class="num">Price</th><th>Purpose</th><th>Theme &amp; budget note</th></tr></thead><tbody>`+
+    z.items.map(it=>`<tr><td><b>${it[0]}</b></td><td>${it[1]}</td><td class="num">${it[2]}</td><td>${it[3]}</td><td style="color:var(--ink2)">${it[4]}</td></tr>`).join('')+
+    `</tbody></table></div></div>`).join('');
+}
+
+/* ---------- dashboard ---------- */
+function renderDashboard(){
+  // countdown
+  const days=Math.max(0,Math.ceil((WEDDING-new Date())/86400000));
+  document.getElementById('cdNum').textContent=days;
+  // budget
+  const s=budgetSummary();
+  const pct=Math.min(100,s.mid/TARGET*100);
+  const bar=document.getElementById('budgetBar');
+  bar.style.width=pct+'%'; bar.classList.toggle('over',s.mid>TARGET);
+  document.getElementById('budgetMid').textContent=money(s.mid);
+  document.getElementById('budgetCommitted').textContent=money(s.committed);
+  document.getElementById('budgetOpen').textContent=money(Math.max(0,s.mid-s.committed));
+  const v=document.getElementById('budgetVerdict');
+  if(s.mid>TARGET){v.textContent='Over by '+money(s.mid-TARGET);v.className='tag rust';}
+  else{v.textContent=money(TARGET-s.mid)+' under target';v.className='tag sage';}
+  // category breakdown (top 6 by midpoint)
+  const cats=Object.entries(s.byCat).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const maxCat=cats.length?cats[0][1]:1, totalMid=s.mid||1;
+  document.getElementById('catBreakdown').innerHTML=cats.map(([c,amt])=>
+    `<div class="catbar"><div class="top"><span>${escapeHtml(c)}</span><span class="amt">${money(amt)} · ${Math.round(amt/totalMid*100)}%</span></div><div class="tk"><div class="fl" style="width:${Math.round(amt/maxCat*100)}%"></div></div></div>`).join('');
+  // guests
+  const top=guests.filter(g=>g.status==='Top 50');
+  const jake=top.filter(g=>g.side==='Jake').length,mya=top.filter(g=>g.side==='Mya').length,both=top.filter(g=>g.side==='Both').length;
+  document.getElementById('dashTop').textContent=top.length;
+  document.getElementById('dashOpen').textContent=Math.max(0,50-top.length);
+  document.getElementById('sideJake').textContent=jake;
+  document.getElementById('sideMya').textContent=mya;
+  document.getElementById('sideBoth').textContent=both;
+  document.getElementById('sideBar').style.width=((jake/((jake+mya)||1))*100)+'%';
+  document.getElementById('heroGuests').textContent=top.length;
+  // tasks
+  let done=0;TASK_KEYS.forEach(k=>{const el=document.querySelector('[data-key="'+k+'"]');if(el&&el.checked)done++;});
+  const frac=done/TASK_KEYS.length, ring=document.getElementById('taskRing');
+  ring.style.strokeDashoffset=(289*(1-frac)).toFixed(1);
+  document.getElementById('taskPct').textContent=Math.round(frac*100)+'%';
+  document.getElementById('taskFrac').textContent=done+'/'+TASK_KEYS.length;
+  // stat strip
+  document.getElementById('statStrip').innerHTML=
+    `<div class="stat"><div class="k">Est. midpoint</div><div class="v">${money(s.mid)}</div><div class="sub">range ${rangeText(s.lo,s.hi)}</div></div>`+
+    `<div class="stat s-sage"><div class="k">Top 50</div><div class="v">${top.length}</div><div class="sub">${Math.max(0,50-top.length)} seats open</div></div>`+
+    `<div class="stat s-blue"><div class="k">Tasks done</div><div class="v">${Math.round(frac*100)}%</div><div class="sub">${done} of ${TASK_KEYS.length} complete</div></div>`+
+    `<div class="stat s-rust"><div class="k">Days to go</div><div class="v">${days}</div><div class="sub">until Oct 10, 2026</div></div>`;
+  // do-this-now (mirrors the Lock-first tasks)
+  document.getElementById('dashNow').innerHTML=NOW_TASKS.map(([k,t,sub])=>{
+    const el=document.querySelector('[data-key="'+k+'"]');const ck=el&&el.checked;
+    return `<li><input type="checkbox" ${ck?'checked':''} onchange="toggleTask('${k}',this.checked)"><div><strong>${t}</strong><br><small>${sub}</small></div><span class="priority p0">Now</span></li>`;
+  }).join('');
+}
+function toggleTask(k,val){const el=document.querySelector('[data-key="'+k+'"]');if(el){el.checked=val;saveAll();}}
+function copyMsg(id,btn){const t=document.getElementById(id).innerText;navigator.clipboard.writeText(t).then(()=>{const o=btn.textContent;btn.textContent='Copied ✓';setTimeout(()=>btn.textContent=o,1600)}).catch(()=>{btn.textContent='Press Ctrl/Cmd+C';});}
+
+/* ---------- export / import / reset ---------- */
+function exportPlanner(){
+  saveAll();const data={guests,budget,fields:{}};
+  document.querySelectorAll('[data-key]').forEach(el=>{data.fields[el.dataset.key]=el.type==='checkbox'?el.checked:(el.value!==undefined?el.value:el.innerHTML);});
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='jake_mya_wedding_planner_export.json';a.click();
+}
+function importPlannerPrompt(){
+  const txt=prompt('Paste planner export JSON here');if(!txt)return;
+  try{const d=JSON.parse(txt);if(d.guests)guests=d.guests;if(d.budget)budget=d.budget;
+    if(d.fields)Object.entries(d.fields).forEach(([k,v])=>localStorage.setItem('jm_'+k,typeof v==='boolean'?(v?'1':'0'):v));
+    saveAll();location.reload();}catch(e){alert('Could not import that JSON.')}
+}
+function resetPlanner(){if(confirm('Clear all saved edits and return to the built-in plan?')){Object.keys(localStorage).filter(k=>k.startsWith('jm_')).forEach(k=>localStorage.removeItem(k));location.reload();}}
+
+/* ---------- init ---------- */
+buildNav();
+loadFields();
+renderBudget();
+renderGuests();
+renderZones();
+renderDashboard();
+</script>
+</body>
+</html>
